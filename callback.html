@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Connecting...</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>body{background:#0a0e1a;color:#e8edf5;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;flex-direction:column;gap:16px}
+.spinner{width:32px;height:32px;border:3px solid rgba(255,255,255,0.1);border-top-color:#6c5ce7;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}</style>
+</head>
+<body>
+<div class="spinner"></div>
+<div>Connecting your Pollinations account...</div>
+<script>
+const hash = location.hash;
+const params = new URLSearchParams(hash.slice(1));
+const apiKey = params.get('api_key');
+const code = new URLSearchParams(location.search).get('code');
+if (apiKey) {
+  localStorage.setItem('polli_health_token', apiKey);
+  window.location.replace('/health-analyzer-ai/');
+} else if (code) {
+  fetch('/health-analyzer-ai/callback.html?code=' + code);
+  document.body.innerHTML = '<div style="color:#00b894">&#10003;</div><div>Connected! <a href="/health-analyzer-ai/" style="color:#6c5ce7">Go back</a></div>';
+} else {
+  window.location.replace('/health-analyzer-ai/');
+}
+</script>
+</body>
+</html>
